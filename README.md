@@ -1,6 +1,6 @@
 # Arctic Training hands on materials
 
-hands on materials for the Arctic Data training workshop
+Hands on materials for the Arctic Data training workshop
 
 * data
 * lessons
@@ -14,4 +14,4 @@ change1
 
 change2
 
-change 3
+change3
