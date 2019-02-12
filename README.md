@@ -12,6 +12,6 @@ And I made more changes
 
 change1 - this is my change - slh
 
-change2
+one more change: Aleksey's change
 
 another change to change3 : Aleksey changed this
