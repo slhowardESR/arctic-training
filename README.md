@@ -10,7 +10,7 @@ Made some changes from Rstudio
 
 And I made more changes
 
-change1
+change1 - this is my change - slh
 
 change2
 
