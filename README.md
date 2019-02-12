@@ -12,6 +12,6 @@ And I made more changes
 
 change1 - this is my change - slh
 
-change2
+change2 okay - well this is my conflicting change SLH
 
 another change to change3 : Aleksey changed this
