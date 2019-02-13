@@ -16,9 +16,10 @@ change2: Aleksey's change merged with SLH's
 
 another change to change3 : Aleksey changed this
 
-Winds are cool
+Winds are cool 
 
 winds are going to be strong tonight
+
 
 I don't like it when it is windy
 
@@ -26,3 +27,6 @@ I don't like it when it is windy
 
 222
 111
+=======
+I don't like it when it is windy - UGH
+>>>>>>> winds
