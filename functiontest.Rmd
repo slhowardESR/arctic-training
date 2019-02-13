@@ -1,0 +1,93 @@
+---
+title: "functiontest"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Work with some data in degrees
+
+* CONVERT FROM f TO CELSIUS 
+* wRITE A FUNCTION
+* WRITE A FUNCTIONS  FROM c TO f
+* dOCUMENT FUNCTION
+
+```{r}
+
+
+airtemps <- c(212, 100, 32, 64, 0, -20)
+
+celsius1 <- (airtemps[1]-32)*5/9
+celsius2 <- (airtemps[2]-32)*5/9
+celsius3 <- (airtemps[3]-32)*5/9
+celsius4 <- (airtemps[4]-32)*5/9
+celsius5 <- (airtemps[5]-32)*5/9
+celsius6 <- (airtemps[6]-32)*5/9
+
+# or
+
+celsius_all <- (airtemps-32)*5/9
+
+
+```
+
+# no wwrite a function to do it
+
+```{r}
+
+fahr_to_celsius <- function(fahr) {
+  celsius <- (fahr-32)*5/9
+  return(celsius)
+}
+
+celsius_temps=fahr_to_celsius(airtemps)
+celsius_temps
+```
+
+## can define defualt values if the input is missing
+```{r}
+
+fahr_to_celsius <- function(fahr=212) {
+  celsius <- (fahr-32)*5/9
+  return(celsius)
+}
+
+
+fahr_to_celsius()
+
+```
+
+
+
+#  New function to go in revserse
+```{r}
+celsius_to_fahr <- function(cels) {
+  fahr <- (cels*9/5)+32
+  return(fahr)
+}
+
+celsius_to_fahr(100)
+
+
+```
+```{r}
+celsius_to_fahr(celsius_temps)
+
+```
+
+# Documenting functions
+
+```{r}
+#' converts temperate in Degrees Fahrenheit to Celsius
+#'
+#' @param fahr for the input value (degrees)
+#' @return the converted value in Celsius
+
+fahr_to_celsius <- function(fahr) {
+  celsius <- (fahr-32)*5/9
+  return(celsius)
+  
+}
