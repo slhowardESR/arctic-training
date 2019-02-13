@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 library(dplyr)
 library(tidyr)
 
@@ -17,10 +17,71 @@ library(tidyr)
 
 # Reformat the Catch Data
 
-* Remove the all column
+* Remove the 'all' column
 * create a species column
     -move from wide to long
 * general QA
+
+# Data
+
+[data from: Mike Byerly. Alaska commercial salmon catches by management region (1886- 1997). urn:node:GOA. df35b.304.2.](https://knb.ecoinformatics.org/view/df35b.304.2)
+
+```{r}
+
+catch_original <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1", method = "libcurl"),
+                    stringsAsFactors = FALSE)
+
+head(catch_original)
+
+```
+
+
+Remove the 'all' and 'notesRegCode' columns using 'select'
+
+hint:
+*ctrl + shift + M : pipe shortcut %>%
+
+
+```{r}
+catch_long <- catch_original %>% 
+    select(Region,Year,Chinook,Sockeye,Coho,Pink,Chum)
+
+
+
+catch_long <- catch_long %>%  #select columns we want 
+    gather(key="species", value="catch", Chinook, Sockeye, Coho, Pink, Chum)  # move from wde to long
+
+head(catch_long)
+
+```
+
+
+or
+
+
+
+{r eval=False}
+catch_long <- catch_original %>% 
+    select(-All, -notesRegCode)
+
+
+
+catch_long <- catch_long %>% 
+    gather(key="species", value="catch", -Region, -Year)
+
+
+head(catch_long)
+
+You can use the -Variable to exclude some rather than listing them all
+
+
+
+```{r}
+catch_wide <- catch_long %>% 
+       spread(key=species, value =catch)
+
+head(catch_wide)
+```
 
 
 
