@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * dOCUMENT FUNCTION
 
 ```{r}
-
+source('convert.R')
 
 airtemps <- c(212, 100, 32, 64, 0, -20)
 
@@ -31,7 +31,7 @@ celsius6 <- (airtemps[6]-32)*5/9
 
 celsius_all <- (airtemps-32)*5/9
 
-
+new_fahr_to_celsius(airtemps)
 ```
 
 # no wwrite a function to do it
