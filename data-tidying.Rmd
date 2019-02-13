@@ -1,0 +1,33 @@
+---
+title: "dataRefomatting"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+# these libraries have their own filter,lag functions. to call stats file, use   stats::filter()
+
+```
+
+# Reformat the Catch Data
+
+* Remove the all column
+* create a species column
+    -move from wide to long
+* general QA
+
+
+
+# Join the Region Definitions
+
+
+
+
+
+# Misc functions
