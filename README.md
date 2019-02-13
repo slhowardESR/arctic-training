@@ -19,3 +19,5 @@ another change to change3 : Aleksey changed this
 Winds are cool
 
 winds are going to be strong tonight
+
+I don't like it when it is windy
