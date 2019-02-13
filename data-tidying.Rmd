@@ -236,3 +236,9 @@ head(dates_unite)
 
 ```
 
+#Write data to file
+
+```{r}
+write.csv(catch_clean, "catch_clean.csv", row.names = F)
+```
+
