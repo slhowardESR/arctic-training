@@ -15,3 +15,5 @@ change1 - this is my change - slh
 change2: Aleksey's change merged with SLH's
 
 another change to change3 : Aleksey changed this
+
+Winds are cool
