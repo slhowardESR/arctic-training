@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "Data Vizualization"
 output: html_document
 ---
 
@@ -7,22 +7,102 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+```{r warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# these libraries have their own filter,lag functions. to call stats file, use   stats::filter()
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+#Reformat Data for Plotting
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+
+data from : https://knb.ecoinformatics.org/view/doi:10.5063/F1S46Q6M
+Alaska Department of Fish and Game, Division of Commercial Fisheries. 2017. Daily salmon escapement counts from the OceanAK database, Alaska, 1921-2017. Knowledge Network for Biocomplexity. doi:10.5063/F1S46Q6M.
+
+```{r}
+esc <-  read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3Af119a05b-bbe7-4aea-93c6-85434dcb1c5e", method="libcurl"), stringsAsFactors = FALSE)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+* calculate annual escapement by species and region
+* filter for just pacific salmon (Sockeye, Chinook, coho, pink, chum)
+
+```{r}
+annual_esc <- esc %>% 
+    separate(sampleDate, into = c("year", "month", "day"), sep = "-") %>% 
+    mutate(year = as.numeric(year)) %>%  #make numeric
+    group_by(year, Species, SASAP.Region) %>% 
+    summarise(count=sum(DailyCount)) %>% 
+    filter(Species %in% c("Chinook","Sockeye","Chum","Coho","Pink")) 
+   
+
+head(annual_esc)
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+
+```
+
+#Generate some static plots
+
+
+```{r}
+ggplot(annual_esc, aes(x = Species, y = count)) +
+    geom_col( fill="lavender")
+```
+
+
+```{r}
+ggplot(annual_esc) +
+    geom_col(aes(x = Species, y = count), fill="purple")
+```
+
+
+
+```{r}
+ggplot(annual_esc, aes(x = Species, y = count, fill = SASAP.Region)) +
+  
+    geom_col()
+```
+
+## just plot Kodiak
+```{r}
+ggplot(filter(annual_esc, SASAP.Region == "Kodiak"), aes(x = year, y = count, color = Species)) +
+    geom_line() +
+    geom_point() +
+    ylab("Escapement (num of fish)") +
+    xlab("year") +
+    ggtitle("Kodiak Salmon Escapement") +
+    theme_test() +
+    theme(legend.position="bottom")
+    
+```
+
+```{r}
+my_theme <- theme_test() +
+    theme(legend.position="bottom")
+```
+
+
+```{r}
+ggplot(filter(annual_esc, SASAP.Region == "Kodiak"), aes(x = year, y = count, color = Species)) +
+    geom_line() +
+    geom_point() +
+    ylab("Escapement (num of fish)") +
+    xlab("year") +
+    ggtitle("Kodiak Salmon Escapement") +
+    my_theme
+    
+```
+
+
+#create interactive mapt
