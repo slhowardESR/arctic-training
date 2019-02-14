@@ -13,6 +13,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(scales)
+library(leaflet)
+library(DT)
 
 # these libraries have their own filter,lag functions. to call stats file, use   stats::filter()
 
@@ -131,4 +133,51 @@ ggsave("figures/regional_escapement.png",
 
 
 
-#create interactive mapt
+# Create Interactive Map
+
+
+* map the sampling locations  for escapement
+* find distinct lat/lon combinations
+
+
+```{r}
+locations <- esc %>% 
+    distinct(Location, Latitude, Longitude) %>% 
+    drop_na()
+
+```
+
+
+```{r, echo=F}
+datatable(locations)
+```
+
+
+### now make the map
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+```{r}
+leaflet(locations) %>% 
+    addTiles() 
+    
+    
+```
+```{r}
+leaflet(locations) %>% 
+    addTiles() %>% 
+    addMarkers(lng = ~Longitude, lat= ~ Latitude, popup = ~ Location)
+    
+```
+
+```{r}
+leaflet(locations) %>% 
+    addTiles(urlTemplate="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga") %>% 
+    addMarkers(lng = ~Longitude, lat= ~ Latitude, popup = ~ Location)
+    
+```
+
+
+leaflet() %>% addTiles(urlTemplate = "https://mts1.google.com/vt/lyrs=s&hl=en&src=app&x={x}&y={y}&z={z}&s=G", attribution = 'Google')
