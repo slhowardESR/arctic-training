@@ -7,10 +7,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+I used the following Libraries for this page
 ```{r warning=FALSE, message=FALSE}
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(scales)
 
 # these libraries have their own filter,lag functions. to call stats file, use   stats::filter()
 
@@ -23,7 +25,7 @@ library(ggplot2)
 data from : https://knb.ecoinformatics.org/view/doi:10.5063/F1S46Q6M
 Alaska Department of Fish and Game, Division of Commercial Fisheries. 2017. Daily salmon escapement counts from the OceanAK database, Alaska, 1921-2017. Knowledge Network for Biocomplexity. doi:10.5063/F1S46Q6M.
 
-```{r}
+```{r, echo=F}
 esc <-  read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3Af119a05b-bbe7-4aea-93c6-85434dcb1c5e", method="libcurl"), stringsAsFactors = FALSE)
 ```
 
@@ -39,7 +41,7 @@ annual_esc <- esc %>%
     filter(Species %in% c("Chinook","Sockeye","Chum","Coho","Pink")) 
    
 
-head(annual_esc)
+#head(annual_esc)
 
 ```
 
@@ -55,7 +57,7 @@ head(annual_esc)
 #Generate some static plots
 
 
-```{r}
+```{r }
 ggplot(annual_esc, aes(x = Species, y = count)) +
     geom_col( fill="lavender")
 ```
@@ -89,7 +91,8 @@ ggplot(filter(annual_esc, SASAP.Region == "Kodiak"), aes(x = year, y = count, co
 
 ```{r}
 my_theme <- theme_test() +
-    theme(legend.position="bottom")
+    theme(legend.position="bottom",
+    legend.title=element_blank())
 ```
 
 
@@ -103,6 +106,29 @@ ggplot(filter(annual_esc, SASAP.Region == "Kodiak"), aes(x = year, y = count, co
     my_theme
     
 ```
+
+##Mulitple plts
+
+```{r fig.width = 7, fig.height=8}
+p <- ggplot(annual_esc, aes(x = year, y = count, color = Species)) +
+    geom_line() +
+    geom_point() +
+    scale_y_continuous(label=comma) +
+    facet_wrap(~SASAP.Region, scales = "free_y", ncol=2) +
+    ylab("Escapement") +
+    my_theme
+
+p
+
+ggsave("figures/regional_escapement.png",
+       plot=p,
+       width=7,
+       height=8,
+       units = "in")
+     
+```
+
+
 
 
 #create interactive mapt
