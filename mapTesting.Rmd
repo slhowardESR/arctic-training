@@ -1,0 +1,91 @@
+---
+title: "Map Testing"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+library(leaflet)
+library(DT)
+
+# these libraries have their own filter,lag functions. to call stats file, use   stats::filter()
+
+```
+
+
+#Reformat Data for Plotting
+
+
+data from : https://knb.ecoinformatics.org/view/doi:10.5063/F1S46Q6M
+Alaska Department of Fish and Game, Division of Commercial Fisheries. 2017. Daily salmon escapement counts from the OceanAK database, Alaska, 1921-2017. Knowledge Network for Biocomplexity. doi:10.5063/F1S46Q6M.
+
+
+
+
+```{r, echo=F}
+esc <-  read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3Af119a05b-bbe7-4aea-93c6-85434dcb1c5e", method="libcurl"), stringsAsFactors = FALSE)
+```
+
+* calculate annual escapement by species and region
+* filter for just pacific salmon (Sockeye, Chinook, coho, pink, chum)
+
+```{r}
+locations <- esc %>% 
+    distinct(Location, Latitude, Longitude) %>% 
+    drop_na()
+
+```
+
+
+
+```{r}
+leaflet(locations) %>% 
+    addTiles() %>% 
+    addMarkers(lng = ~Longitude, lat= ~ Latitude, popup = ~ Location)
+    
+```
+
+
+
+```{r}
+leaflet(locations) %>% 
+    addTiles(urlTemplate="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga") %>% 
+    addMarkers(lng = ~Longitude, lat= ~ Latitude, popup = ~ Location)
+    
+```
+
+
+
+```{r}
+leaflet(locations) %>% 
+    addWMSTiles("https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
+              layers = 'GEBCO_LATEST', 
+              attribution = "Imagery reproduced from the GEBCO_2014 Grid, version 20150318, www.gebco.net") %>%
+    addCircleMarkers(lng = ~Longitude,
+                   lat = ~Latitude,
+                   popup = ~ Location,
+                   radius = 5,
+                   # set fill properties
+                   fillColor = "salmon",
+                   fillOpacity = 1,
+                   # set stroke properties
+                   stroke = T,
+                   weight = 0.5,
+                   color = "white",
+                   opacity = 1)
+
+```
+
+
+
+
+
+
+

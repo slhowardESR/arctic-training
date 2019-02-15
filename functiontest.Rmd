@@ -7,8 +7,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(myTools)
+```
+
 
 # Work with some data in degrees
+```{r}
+environment_info("yay")
+```
 
 * CONVERT FROM f TO CELSIUS 
 * wRITE A FUNCTION
@@ -91,3 +98,8 @@ fahr_to_celsius <- function(fahr) {
   return(celsius)
   
 }
+```
+
+
+
+
